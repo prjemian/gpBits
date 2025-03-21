@@ -1,0 +1,106 @@
+# Guarneri-style device YAML configuration
+
+# Objects only available at APS
+
+apstools.devices.ad_creator:
+
+  - name: adsimdet
+    # IOC host: arf
+    prefix: "ad:"
+    labels: ["area_detector", "detectors"]
+    plugins:
+      - cam:
+          class: apstools.devices.SimDetectorCam_V34
+      - image
+      - pva
+      - hdf1:
+          class: apstools.devices.AD_EpicsFileNameHDF5Plugin
+          # TODO: check these paths
+          read_path_template: "/mnt/iocad/tmp/"
+          write_path_template: "/tmp/"
+      - roi1
+      - stats1
+
+apstools.devices.SimulatedApsPssShutterWithStatus:
+- name: shutter
+  labels: ["shutters"]
+
+apstools.synApps.Optics2Slit2D_HV:
+- name: slit1
+  prefix: gp:Slit1
+  labels: ["slits"]
+
+apstools.synApps.SscanDevice: [{ name: scans, prefix: "gp:" }]
+apstools.synApps.TransformRecord: [{ name: ad_transform, prefix: "gp:userTran19" }]
+apstools.synApps.UserCalcoutDevice: [{ name: user_calcouts, prefix: "gp:" }]
+apstools.synApps.UserCalcsDevice: [{ name: user_calcs, prefix: "gp:" }]
+apstools.synApps.UserStringSequenceDevice: [{ name: user_sseqs, prefix: "gp:" }]
+apstools.synApps.UserTransformsDevice: [{ name: user_transforms, prefix: "gp:" }]
+
+hklpy2.creator:
+  - name: sim4c
+    geometry: E4CV
+    labels: ["diffractometer", "hklpy2"]
+  - name: sim6c
+    geometry: E6C
+    labels: ["diffractometer", "hklpy2"]
+  - name: simk6c
+    geometry: K6C
+    labels: ["diffractometer", "hklpy2"]
+  - name: fourc
+    geometry: E4CV
+    prefix: "zgp:"
+    labels: ["diffractometer", "hklpy2"]
+    reals:  # MUST provide in canonical order
+      omega: m30
+      chi: m31
+      phi: m32
+      ttth: m29
+  - name: sixc
+    geometry: E6C
+    prefix: "zgp:"
+    labels: ["diffractometer", "hklpy2"]
+    reals:  # MUST provide in canonical order
+      # No defined motor assignments, pick different than fourc (m29-32)
+      mu: m23
+      omega: m24
+      chi: m25
+      phi: m26
+      gamma: m27
+      delta: m28
+
+instrument.devices.factories.motors:
+  - {prefix: "gp:m", first: 1, last: 4, labels: ["motor"]}
+  # gp:m5 & gp:m6 reserved by gp:Slit1
+  - {prefix: "gp:m", first: 7, last: 22, labels: ["motor"]}
+  # gp:m23 .. gp:m28 used by sixc
+  # gp:m29 .. gp:m32 used by fourc
+  - {prefix: "gp:m", first: 33, last: 44, labels: ["motor"]}
+  # gp:m45 .. gp:m47 used by monochromator
+  - {prefix: "gp:m", first: 48, last: 56, labels: ["motor"]}
+
+instrument.devices.ioc_stats.IocInfoDevice: [{ name: gp_stats, prefix: "gp:" }]
+
+instrument.devices.kohzu_monochromator.KohzuDCM:
+  - name: dcm
+    prefix: "gp:"
+    labels: ["monochromator"]
+    m_th: m45
+    m_y: m46
+    m_z: m47
+
+instrument.devices.scaler.ScalerCH:
+  - name: scaler1
+    prefix: gp:scaler1
+    labels: ["scalers", "detectors"]
+
+instrument.devices.temperature_signal.TemperaturePositioner:
+  - name: temperature
+    prefix: gp:userCalc8
+    egu: C
+    limits: [-20, 255]
+
+ophyd.EpicsSignalRO:
+  - name: noisy
+    read_pv: gp:userCalc1
+    labels: ["detectors", "simulator"]

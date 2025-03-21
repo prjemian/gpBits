@@ -18,7 +18,7 @@ RUN_ENGINE:
 
     ### EPICS PV to use for the `scan_id`.
     ### Default: `RE.md["scan_id"]` (not using an EPICS PV)
-    SCAN_ID_PV: "gp:gp:int20"
+    SCAN_ID_PV: "gp:gp:int20"  # TODO: Is this setup properly?
 
     ### Where to "autosave" the RE.md dictionary.
     ### Defaults:

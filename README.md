@@ -1,4 +1,4 @@
-# DEMO Instrument
+# gpBits Instrument
 
 Instrument Github Repository to be used with BITS structure at the APS
 
@@ -6,16 +6,17 @@ Instrument Github Repository to be used with BITS structure at the APS
 ## Installing your own BITS instrument
 
 ```bash
-export ENV_NAME=BITS_env
-conda create -y -n $ENV_NAME python=3.11
+export ENV_NAME=gpBits
+conda create -y -n $ENV_NAME python=3.12
 conda activate $ENV_NAME
 pip install apsbits
 ```
 
 
 ## Creating a New Instrument
+
 ```bash
-export YOUR_INSTRUMENT_NAME=new_instrument
+export YOUR_INSTRUMENT_NAME=instrument
 create-bits $YOUR_INSTRUMENT_NAME
 pip install -e .
 ```
@@ -26,7 +27,7 @@ pip install -e .
 To start the bluesky instrument session in a ipython execute the next command in a terminal:
 
 ```bash
-ipython
+ipython -i -c "from instrument.startup import *"
 ```
 
 ## Jupyter Notebook Start
@@ -35,7 +36,7 @@ Start JupyterLab, a Jupyter notebook server, or a notebook, VSCode.
 ## Starting the BITS Package
 
 ```py
-from YOUR_INSTRUMENT_NAME.startup import *
+from instrument.startup import *
 ```
 
 ## Run Sim Plan Demo
@@ -68,7 +69,7 @@ will interact with that host process.
 Install screen
 
 ```bash
-sudo apt install screen
+(gpBits) $ sudo apt install screen
 ```
 
 Use the queueserver host management script to start the QS host process.  The
@@ -77,7 +78,7 @@ the usual way to (re)start the QS host process. Using `restart`, the process
 runs in the background.
 
 ```bash
-/src/YOUR_INSTRUMENT_NAME_qserver/qs_host.sh restart
+(gpBits) $ ./src/YOUR_INSTRUMENT_NAME_qserver/qs_host.sh restart
 ```
 
 ### Run a queueserver client GUI
@@ -94,7 +95,7 @@ A [shell script](./qserver/qs_host.sh) is used to start the QS host process. Bel
 are all the command options, and what they do.
 
 ```bash
-(bstest) $ ./qserver/qs_host.sh help
+(gpBits) $ ./qserver/qs_host.sh help
 Usage: qs_host.sh {start|stop|restart|status|checkup|console|run} [NAME]
 
     COMMANDS

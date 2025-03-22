@@ -16,6 +16,7 @@ from apsbits.core.catalog_init import init_catalog
 from apsbits.core.run_engine_init import init_RE
 from apsbits.utils.aps_functions import aps_dm_setup
 from apsbits.utils.config_loaders import get_config
+from apsbits.utils.controls_setup import oregistry
 from apsbits.utils.helper_functions import register_bluesky_magics
 from apsbits.utils.helper_functions import running_in_queueserver
 from apsbits.utils.make_devices import make_devices
@@ -24,6 +25,9 @@ from .plans.stubs import reload_devices
 
 logger = logging.getLogger(__name__)
 logger.bsdev(__file__)
+
+# Do not track any ophyd objects loaded by imports above.
+oregistry.clear()
 
 # Get the configuration
 iconfig = get_config()
@@ -66,15 +70,12 @@ if running_in_queueserver():
 else:
     # Import bluesky plans and stubs with prefixes set by common conventions.
     # The apstools plans and utils are imported by '*'.
-    from apsbits.utils.controls_setup import oregistry
     from apstools.plans import *  # noqa: F403
     from apstools.utils import *  # noqa: F403
     from bluesky import plan_stubs as bps  # noqa: F401
     from bluesky import plans as bp  # noqa: F401
 
-oregistry.clear()
-
 if False:
     RE(make_devices())
 else:
-    RE(reload_devices())
+    RE(reload_devices(clear=False))

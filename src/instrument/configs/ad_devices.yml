@@ -1,0 +1,24 @@
+# Guarneri-style device YAML configuration
+
+# Objects only available at APS
+
+apstools.devices.ad_creator:
+
+  - name: adsimdet
+    # IOC host: arf
+    prefix: "ad:"
+    labels: ["area_detector", "detectors"]
+    plugins:
+      - cam:
+          class: apstools.devices.SimDetectorCam_V34
+      - image
+      - pva
+      - hdf1:
+          class: apstools.devices.AD_EpicsFileNameHDF5Plugin
+          # TODO: check these paths
+          read_path_template: "/mnt/iocad/tmp/"
+          write_path_template: "/tmp/"
+      - roi1
+      - stats1
+
+apstools.synApps.TransformRecord: [{ name: ad_transform, prefix: "gp:userTran19" }]

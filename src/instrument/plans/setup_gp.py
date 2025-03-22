@@ -30,6 +30,7 @@ from apstools.devices import setup_lorentzian_swait
 from apstools.plans import run_blocking_function
 from bluesky import plan_stubs as bps
 from ophydregistry.exceptions import ComponentNotFound
+
 from .stubs import ad_peak_simulation
 from .stubs import change_ad_simulated_image_parameters
 from .stubs import dither_ad_peak_position
@@ -226,15 +227,26 @@ def setup_scaler1():
 
 def setup_scan_id():
     """Set scan_id PV to number of runs in current catalog."""
+    from apsbits.utils.controls_setup import SCAN_ID_SIGNAL_NAME
+
     from ..startup import cat
 
     logger.info("setup_scan_id()")
-    scan_id_epics = oregistry.find(scan_id_epics, allow_none=True)
-    if scan_id_epics is not None:
-        if scan_id_epics.connected:
-            yield from bps.mv(scan_id_epics, len(cat))
+    scan_id_signal = oregistry.find(SCAN_ID_SIGNAL_NAME, allow_none=True)
+    if scan_id_signal is not None:
+        if scan_id_signal.connected:
+            yield from bps.mv(scan_id_signal, len(cat))
         else:
-            logger.warning(f"PV: {scan_id_epics.pvname} not connected, 'scan_id' reset.")
+            logger.warning(
+                "PV: %s not connected, 'scan_id' reset.",
+                scan_id_signal.pvname,
+            )
+    else:
+        logger.warning(
+            "No %r signal found. Devices in oregistry: %s",
+            SCAN_ID_SIGNAL_NAME,
+            sorted(oregistry.device_names),
+        )
 
 
 def setup_shutter(delay=0.05):

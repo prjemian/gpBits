@@ -2,25 +2,6 @@
 
 # Objects only available at APS
 
-apstools.devices.ad_creator:
-
-  - name: adsimdet
-    # IOC host: arf
-    prefix: "ad:"
-    labels: ["area_detector", "detectors"]
-    plugins:
-      - cam:
-          class: apstools.devices.SimDetectorCam_V34
-      - image
-      - pva
-      - hdf1:
-          class: apstools.devices.AD_EpicsFileNameHDF5Plugin
-          # TODO: check these paths
-          read_path_template: "/mnt/iocad/tmp/"
-          write_path_template: "/tmp/"
-      - roi1
-      - stats1
-
 apstools.devices.SimulatedApsPssShutterWithStatus:
 - name: shutter
   labels: ["shutters"]
@@ -31,10 +12,9 @@ apstools.synApps.Optics2Slit2D_HV:
   labels: ["slits"]
 
 apstools.synApps.SscanDevice: [{ name: scans, prefix: "gp:" }]
-apstools.synApps.TransformRecord: [{ name: ad_transform, prefix: "gp:userTran19" }]
-apstools.synApps.UserCalcoutDevice: [{ name: user_calcouts, prefix: "gp:" }]
+# apstools.synApps.UserCalcoutDevice: [{ name: user_calcouts, prefix: "gp:" }]
 apstools.synApps.UserCalcsDevice: [{ name: user_calcs, prefix: "gp:" }]
-apstools.synApps.UserStringSequenceDevice: [{ name: user_sseqs, prefix: "gp:" }]
+# apstools.synApps.UserStringSequenceDevice: [{ name: user_sseqs, prefix: "gp:" }]
 apstools.synApps.UserTransformsDevice: [{ name: user_transforms, prefix: "gp:" }]
 
 hklpy2.creator:
@@ -99,11 +79,6 @@ instrument.devices.temperature_signal.TemperaturePositioner:
     prefix: gp:userCalc8
     egu: C
     limits: [-20, 255]
-
-ophyd.EpicsSignal:
-  - name: scan_id_epics
-    read_pv: gp:gp:int1
-    labels: ["scan_id"]
 
 ophyd.EpicsSignalRO:
   - name: noisy

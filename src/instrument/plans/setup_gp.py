@@ -210,11 +210,11 @@ def setup_scaler1():
 
 def setup_scan_id():
     """Set scan_id PV to number of runs in current catalog."""
-    from apsbits.utils.controls_setup import SCAN_ID_SIGNAL_NAME
     from apsbits.core.catalog_init import init_catalog
     from apsbits.utils.config_loaders import get_config
+    from apsbits.utils.controls_setup import SCAN_ID_SIGNAL_NAME
 
-    cat = init_catalog(get_config()
+    cat = init_catalog(get_config())
     # from ..startup import cat  # FIXME: How to import cat from startup or BITS?
 
     logger.info("setup_scan_id()")

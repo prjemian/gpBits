@@ -21,7 +21,7 @@ from apsbits.utils.helper_functions import register_bluesky_magics
 from apsbits.utils.helper_functions import running_in_queueserver
 from apsbits.utils.make_devices import make_devices
 
-from .plans.stubs import reload_devices
+from .plans.setup_gp import setup_devices
 
 logger = logging.getLogger(__name__)
 logger.bsdev(__file__)
@@ -75,7 +75,10 @@ else:
     from bluesky import plan_stubs as bps  # noqa: F401
     from bluesky import plans as bp  # noqa: F401
 
-if False:
-    RE(make_devices())
-else:
-    RE(reload_devices(clear=False))
+
+def on_startup():
+    yield from make_devices()
+    yield from setup_devices()
+
+
+RE(on_startup())

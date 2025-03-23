@@ -9,7 +9,6 @@ Plan stubs.
     ~dither_ad_off
     ~dither_ad_on
     ~dither_ad_peak_position
-    ~reload_devices
 """
 
 import logging
@@ -260,12 +259,3 @@ def ad_peak_simulation(
         tr.scanning_rate, "1 second",
     )
     # fmt: on
-
-
-def reload_devices(pause: float = 1, clear: bool = True):
-    """(plan) Clear registry before (re)loading devices."""
-
-    if clear:
-        # TODO: Clear oregistry.device_names from __main__ namespace
-        oregistry.clear()
-    yield from make_devices(pause=pause)

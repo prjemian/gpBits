@@ -80,6 +80,11 @@ instrument.devices.temperature_signal.TemperaturePositioner:
     egu: C
     limits: [-20, 255]
 
+ophyd.EpicsSignal:
+  - name: scan_id_epics
+    read_pv: gp:gp:int20
+    labels: ["scan_id"]
+
 ophyd.EpicsSignalRO:
   - name: noisy
     read_pv: gp:userCalc1

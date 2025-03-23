@@ -104,7 +104,7 @@ def setup_area_detectors():
         print(f"Peak Dithering setup failed: {reason}")
 
 
-def setup_devices(*, extra_wait: float = 1):
+def setup_devices():
     """Initialize all the local controls (with default settings)."""
     logger.info("Starting local controls setup.")
 
@@ -117,28 +117,11 @@ def setup_devices(*, extra_wait: float = 1):
         yield from change_noisy_signal_parameters()
         yield from setup_shutter()
         yield from setup_monochromator()
-        yield from setup_diffractometers()
         yield from setup_temperature_positioner()
         yield from setup_area_detectors()
         logger.info("Local controls setup finished.")
     except (ComponentNotFound, TimeoutError) as reason:
         logger.warning("Problem during setup_devices(): %s", reason)
-
-
-def setup_diffractometers():
-    """Setup fourc and sixc, if they exist."""
-    logger.info("setup_diffractometers()")
-
-    def _internal(key):
-        obj = oregistry.find(key, allow_none=True)
-        if obj is None:
-            logger.debug("No %r diffractometer.", key)
-            return
-        obj.wait_for_connection()
-        obj._update_calc_energy()
-
-    for key in ("fourc", "sixc"):
-        yield from run_blocking_function(_internal, key)
 
 
 def setup_monochromator():
@@ -228,12 +211,15 @@ def setup_scaler1():
 def setup_scan_id():
     """Set scan_id PV to number of runs in current catalog."""
     from apsbits.utils.controls_setup import SCAN_ID_SIGNAL_NAME
+    from apsbits.core.catalog_init import init_catalog
+    from apsbits.utils.config_loaders import get_config
 
-    from ..startup import cat
+    cat = init_catalog(get_config()
+    # from ..startup import cat  # FIXME: How to import cat from startup or BITS?
 
     logger.info("setup_scan_id()")
-    scan_id_signal = oregistry.find(SCAN_ID_SIGNAL_NAME, allow_none=True)
-    if scan_id_signal is not None:
+    try:
+        scan_id_signal = oregistry[SCAN_ID_SIGNAL_NAME]
         if scan_id_signal.connected:
             yield from bps.mv(scan_id_signal, len(cat))
         else:
@@ -241,12 +227,9 @@ def setup_scan_id():
                 "PV: %s not connected, 'scan_id' reset.",
                 scan_id_signal.pvname,
             )
-    else:
-        logger.warning(
-            "No %r signal found. Devices in oregistry: %s",
-            SCAN_ID_SIGNAL_NAME,
-            sorted(oregistry.device_names),
-        )
+
+    except Exception as exinfo:
+        logger.warning("setup_scan_id()", exc_info=exinfo)
 
 
 def setup_shutter(delay=0.05):

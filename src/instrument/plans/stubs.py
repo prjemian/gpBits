@@ -15,7 +15,6 @@ import logging
 
 import numpy as np
 from apsbits.utils.controls_setup import oregistry
-from apsbits.utils.make_devices import make_devices
 from apstools.devices import AD_plugin_primed
 from apstools.devices import AD_prime_plugin2
 from apstools.devices import TransformRecord

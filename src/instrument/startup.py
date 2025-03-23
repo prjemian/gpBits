@@ -19,9 +19,6 @@ from apsbits.utils.config_loaders import get_config
 from apsbits.utils.controls_setup import oregistry
 from apsbits.utils.helper_functions import register_bluesky_magics
 from apsbits.utils.helper_functions import running_in_queueserver
-from apsbits.utils.make_devices import make_devices
-
-from .plans.setup_gp import setup_devices
 
 logger = logging.getLogger(__name__)
 logger.bsdev(__file__)
@@ -77,6 +74,11 @@ else:
 
 
 def on_startup():
+    """Instead of calling RE() sequentially."""
+    from apsbits.utils.make_devices import make_devices
+
+    from .plans.setup_gp import setup_devices
+
     yield from make_devices()
     yield from setup_devices()
 

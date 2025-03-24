@@ -2,9 +2,9 @@
 
 # Objects only available at APS
 
-apstools.devices.SimulatedApsPssShutterWithStatus:
-- name: shutter
-  labels: ["shutters"]
+# apstools.devices.SimulatedApsPssShutterWithStatus:
+# - name: shutter
+#   labels: ["shutters"]
 
 apstools.synApps.Optics2Slit2D_HV:
 - name: slit1
@@ -17,37 +17,37 @@ apstools.synApps.UserCalcsDevice: [{ name: user_calcs, prefix: "gp:" }]
 # apstools.synApps.UserStringSequenceDevice: [{ name: user_sseqs, prefix: "gp:" }]
 apstools.synApps.UserTransformsDevice: [{ name: user_transforms, prefix: "gp:" }]
 
-hklpy2.creator:
-  - name: sim4c
-    geometry: E4CV
-    labels: ["diffractometer", "hklpy2"]
-  - name: sim6c
-    geometry: E6C
-    labels: ["diffractometer", "hklpy2"]
-  - name: simk6c
-    geometry: K6C
-    labels: ["diffractometer", "hklpy2"]
-  - name: fourc
-    geometry: E4CV
-    prefix: "zgp:"
-    labels: ["diffractometer", "hklpy2"]
-    reals:  # MUST provide in canonical order
-      omega: m30
-      chi: m31
-      phi: m32
-      ttth: m29
-  - name: sixc
-    geometry: E6C
-    prefix: "zgp:"
-    labels: ["diffractometer", "hklpy2"]
-    reals:  # MUST provide in canonical order
-      # No defined motor assignments, pick different than fourc (m29-32)
-      mu: m23
-      omega: m24
-      chi: m25
-      phi: m26
-      gamma: m27
-      delta: m28
+# hklpy2.creator:  # TODO: https://github.com/BCDA-APS/BITS/issues/92
+#   - name: sim4c
+#     geometry: E4CV
+#     labels: ["diffractometer", "hklpy2"]
+#   - name: sim6c
+#     geometry: E6C
+#     labels: ["diffractometer", "hklpy2"]
+#   - name: simk6c
+#     geometry: K6C
+#     labels: ["diffractometer", "hklpy2"]
+#   - name: fourc
+#     geometry: E4CV
+#     prefix: "zgp:"
+#     labels: ["diffractometer", "hklpy2"]
+#     reals:  # MUST provide in canonical order
+#       omega: m30
+#       chi: m31
+#       phi: m32
+#       ttth: m29
+#   - name: sixc
+#     geometry: E6C
+#     prefix: "zgp:"
+#     labels: ["diffractometer", "hklpy2"]
+#     reals:  # MUST provide in canonical order
+#       # No defined motor assignments, pick different than fourc (m29-32)
+#       mu: m23
+#       omega: m24
+#       chi: m25
+#       phi: m26
+#       gamma: m27
+#       delta: m28
 
 instrument.devices.factories.motors:
   - {prefix: "gp:m", first: 1, last: 4, labels: ["motor"]}

@@ -59,6 +59,7 @@ SPEC_DATA_FILES:
 
 ### Local OPHYD Device Control Yaml
 DEVICES_FILES:
+- devices.yml
 - gp_devices.yml
 - ad_devices.yml
 # APS_DEVICES_FILES:

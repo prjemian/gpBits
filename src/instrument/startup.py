@@ -83,4 +83,21 @@ def on_startup():
     yield from setup_devices()
 
 
+# TODO: https://github.com/BCDA-APS/BITS/issues/92
+# def creator_plan(name, geometry="E4CV", solver="hkl_soleil", **kwargs):
+#     from hklpy2 import creator
+
+#     yield from bps.null()
+#     diffractometer = creator(name=name, geometry=geometry, solver=solver, **kwargs)
+#     setattr(sys.modules["__main__"], name, diffractometer)
+
+
+# def count_device(dets: list[str]):
+#     """Run the bp.count plan on items found in oregistry."""
+#     from bluesky import plans as bp
+
+#     detectors = [oregistry[det] for det in dets]
+#     yield from bp.count(detectors)
+
+
 RE(on_startup())

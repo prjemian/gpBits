@@ -9,24 +9,25 @@
 apstools.synApps.Optics2Slit2D_HV:
 - name: slit1
   prefix: gp:Slit1
-  labels: ["slits"]
+  labels: [ "slits" ]
 
-apstools.synApps.SscanDevice: [{ name: scans, prefix: "gp:" }]
+apstools.synApps.SscanDevice: [ { name: scans, prefix: "gp:" } ]
 # apstools.synApps.UserCalcoutDevice: [{ name: user_calcouts, prefix: "gp:" }]
-apstools.synApps.UserCalcsDevice: [{ name: user_calcs, prefix: "gp:" }]
+apstools.synApps.UserCalcsDevice: [ { name: user_calcs, prefix: "gp:" } ]
 # apstools.synApps.UserStringSequenceDevice: [{ name: user_sseqs, prefix: "gp:" }]
-apstools.synApps.UserTransformsDevice: [{ name: user_transforms, prefix: "gp:" }]
+apstools.synApps.UserTransformsDevice: [ { name: user_transforms, prefix: "gp:" } ]
 
-# hklpy2.creator:  # TODO: https://github.com/BCDA-APS/BITS/issues/92
+# TODO: https://github.com/BCDA-APS/BITS/issues/92
+# hklpy2.creator:
 #   - name: sim4c
 #     geometry: E4CV
-#     labels: ["diffractometer", "hklpy2"]
+#     labels: [ "diffractometer", "hklpy2" ]
 #   - name: sim6c
 #     geometry: E6C
-#     labels: ["diffractometer", "hklpy2"]
+#     labels: [ "diffractometer", "hklpy2" ]
 #   - name: simk6c
 #     geometry: K6C
-#     labels: ["diffractometer", "hklpy2"]
+#     labels: [ "diffractometer", "hklpy2" ]
 #   - name: fourc
 #     geometry: E4CV
 #     prefix: "zgp:"
@@ -50,42 +51,42 @@ apstools.synApps.UserTransformsDevice: [{ name: user_transforms, prefix: "gp:" }
 #       delta: m28
 
 instrument.devices.factories.motors:
-  - {prefix: "gp:m", first: 1, last: 4, labels: ["motor"]}
-  # gp:m5 & gp:m6 reserved by gp:Slit1
-  - {prefix: "gp:m", first: 7, last: 22, labels: ["motor"]}
-  # gp:m23 .. gp:m28 used by sixc
-  # gp:m29 .. gp:m32 used by fourc
-  - {prefix: "gp:m", first: 33, last: 44, labels: ["motor"]}
-  # gp:m45 .. gp:m47 used by monochromator
-  - {prefix: "gp:m", first: 48, last: 56, labels: ["motor"]}
+- { prefix: "gp:m", first: 1, last: 4, labels: [ "motor" ] }
+# gp:m5 & gp:m6 reserved by gp:Slit1
+- { prefix: "gp:m", first: 7, last: 22, labels: [ "motor" ] }
+# gp:m23 .. gp:m28 used by sixc
+# gp:m29 .. gp:m32 used by fourc
+- { prefix: "gp:m", first: 33, last: 44, labels: [ "motor" ] }
+# gp:m45 .. gp:m47 used by monochromator
+- { prefix: "gp:m", first: 48, last: 56, labels: [ "motor" ] }
 
-instrument.devices.ioc_stats.IocInfoDevice: [{ name: gp_stats, prefix: "gp:" }]
+instrument.devices.ioc_stats.IocInfoDevice: [ { name: gp_stats, prefix: "gp:" } ]
 
 instrument.devices.kohzu_monochromator.KohzuDCM:
-  - name: dcm
-    prefix: "gp:"
-    labels: ["monochromator"]
-    m_th: m45
-    m_y: m46
-    m_z: m47
+- name: dcm
+  prefix: "gp:"
+  labels: [ "monochromator" ]
+  m_th: m45
+  m_y: m46
+  m_z: m47
 
 instrument.devices.scaler.ScalerCH:
-  - name: scaler1
-    prefix: gp:scaler1
-    labels: ["scalers", "detectors"]
+- name: scaler1
+  prefix: gp:scaler1
+  labels: [ "scalers", "detectors" ]
 
 instrument.devices.temperature_signal.TemperaturePositioner:
-  - name: temperature
-    prefix: gp:userCalc8
-    egu: C
-    limits: [-20, 255]
+- name: temperature
+  prefix: gp:userCalc8
+  egu: C
+  limits: [ -20, 255 ]
 
 ophyd.EpicsSignal:
-  - name: scan_id_epics
-    read_pv: gp:gp:int20
-    labels: ["scan_id"]
+- name: scan_id_epics
+  read_pv: gp:gp:int20
+  labels: [ "scan_id" ]
 
 ophyd.EpicsSignalRO:
-  - name: noisy
-    read_pv: gp:userCalc1
-    labels: ["detectors", "simulator"]
+- name: noisy
+  read_pv: gp:userCalc1
+  labels: [ "detectors", "simulator" ]

@@ -19,15 +19,6 @@ apstools.synApps.UserTransformsDevice: [ { name: user_transforms, prefix: "gp:" 
 
 # TODO: https://github.com/BCDA-APS/BITS/issues/92
 hklpy2.creator:
-- name: sim4c
-  geometry: E4CV
-  labels: [ "diffractometer", "hklpy2" ]
-- name: sim6c
-  geometry: E6C
-  labels: [ "diffractometer", "hklpy2" ]
-- name: simk6c
-  geometry: K6C
-  labels: [ "diffractometer", "hklpy2" ]
 - name: fourc
   geometry: E4CV
   prefix: "zgp:"
@@ -38,7 +29,7 @@ hklpy2.creator:
     chi: m31
     phi: m32
     tth: m29
-- name: sixc
+- name: psic
   geometry: E6C
   prefix: "zgp:"
   labels: [ "diffractometer", "hklpy2" ]
@@ -46,20 +37,29 @@ hklpy2.creator:
     # MUST provide in canonical order
     # No defined motor assignments, pick different than fourc (m29-32)
     mu: m23
-    omega: m24
+    eta: m24
     chi: m25
     phi: m26
-    gamma: m27
+    nu: m27
     delta: m28
+- name: sim4c
+  geometry: E4CV
+  labels: [ "diffractometer", "hklpy2" ]
+- name: sim6c
+  geometry: E6C
+  labels: [ "diffractometer", "hklpy2" ]
+- name: simk6c
+  geometry: K6C
+  labels: [ "diffractometer", "hklpy2" ]
 
 instrument.devices.factories.motors:
-- { prefix: "gp:m", first: 1, last: 4, labels: [ "motor" ] }
 # gp:m5 & gp:m6 reserved by gp:Slit1
-- { prefix: "gp:m", first: 7, last: 22, labels: [ "motor" ] }
-# gp:m23 .. gp:m28 used by sixc
+# gp:m23 .. gp:m28 used by psic
 # gp:m29 .. gp:m32 used by fourc
-- { prefix: "gp:m", first: 33, last: 44, labels: [ "motor" ] }
 # gp:m45 .. gp:m47 used by monochromator
+- { prefix: "gp:m", first: 1, last: 4, labels: [ "motor" ] }
+- { prefix: "gp:m", first: 7, last: 22, labels: [ "motor" ] }
+- { prefix: "gp:m", first: 33, last: 44, labels: [ "motor" ] }
 - { prefix: "gp:m", first: 48, last: 56, labels: [ "motor" ] }
 
 instrument.devices.ioc_stats.IocInfoDevice: [ { name: gp_stats, prefix: "gp:" } ]

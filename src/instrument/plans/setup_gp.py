@@ -172,7 +172,7 @@ def setup_scaler1():
         # fmt: off
         yield from bps.mv(
             scaler1.channels.chan01.chname, "timebase",
-            scaler1.channels.chan02.chname,"I0",
+            scaler1.channels.chan02.chname, "I0",
             scaler1.channels.chan03.chname, "scint",
             scaler1.channels.chan04.chname, "diode",
             scaler1.channels.chan05.chname, "I000",

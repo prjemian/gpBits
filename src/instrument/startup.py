@@ -75,11 +75,13 @@ else:
 
 def on_startup():
     """Instead of calling RE() sequentially."""
-    from apsbits.utils.make_devices import make_devices
+    from apsbits.core.instrument_init import make_devices
 
     from .plans.setup_gp import setup_devices
 
-    yield from make_devices()
+    yield from make_devices(file="devices.yml", clear=False)
+    yield from make_devices(file="gp_devices.yml", clear=False)
+    yield from make_devices(file="ad_devices.yml", clear=False)
     yield from setup_devices()
 
 

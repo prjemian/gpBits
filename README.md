@@ -7,7 +7,7 @@ Instrument Github Repository to be used with BITS structure at the APS
 
 ```bash
 export ENV_NAME=gpBits
-conda create -y -n $ENV_NAME python=3.12
+conda create -y -n $ENV_NAME python=3.12 hkl
 conda activate $ENV_NAME
 pip install apsbits
 ```

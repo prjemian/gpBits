@@ -9,7 +9,7 @@
 apstools.synApps.Optics2Slit2D_HV:
 - name: slit1
   prefix: gp:Slit1
-  labels: [ "slits" ]
+  labels: [ "slits", "baseline" ]
 
 apstools.synApps.SscanDevice: [ { name: scans, prefix: "gp:" } ]
 # apstools.synApps.UserCalcoutDevice: [{ name: user_calcouts, prefix: "gp:" }]
@@ -18,6 +18,10 @@ apstools.synApps.UserCalcsDevice: [ { name: user_calcs, prefix: "gp:" } ]
 apstools.synApps.UserTransformsDevice: [ { name: user_transforms, prefix: "gp:" } ]
 
 # TODO: https://github.com/BCDA-APS/BITS/issues/92
+# See: https://github.com/bluesky/hklpy2/issues/69
+# which means "import gi before matplotlib"
+# This will solve it locally:
+# conda env config vars set LD_LIBRARY_PATH="${CONDA_PREFIX}/lib"
 hklpy2.creator:
 - name: fourc
   geometry: E4CV
@@ -67,7 +71,7 @@ instrument.devices.ioc_stats.IocInfoDevice: [ { name: gp_stats, prefix: "gp:" } 
 instrument.devices.kohzu_monochromator.KohzuDCM:
 - name: dcm
   prefix: "gp:"
-  labels: [ "monochromator" ]
+  labels: [ "monochromator", baseline ]
   m_th: m45
   m_y: m46
   m_z: m47

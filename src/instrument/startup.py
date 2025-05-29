@@ -14,6 +14,7 @@ import logging
 from apsbits.core.best_effort_init import init_bec_peaks
 from apsbits.core.catalog_init import init_catalog
 from apsbits.core.run_engine_init import init_RE
+from apsbits.core.run_engine_init import setup_baseline_stream
 from apsbits.utils.aps_functions import aps_dm_setup
 from apsbits.utils.config_loaders import get_config
 from apsbits.utils.controls_setup import oregistry
@@ -77,12 +78,13 @@ def on_startup():
     """Instead of calling RE() sequentially."""
     from apsbits.core.instrument_init import make_devices
 
-    from .plans.setup_gp import setup_devices
+    from instrument.plans.setup_gp import setup_devices
 
     yield from make_devices(file="devices.yml", clear=False)
     yield from make_devices(file="gp_devices.yml", clear=False)
     yield from make_devices(file="ad_devices.yml", clear=False)
     yield from setup_devices()
+    setup_baseline_stream(sd, iconfig, oregistry)
 
 
 # TODO: https://github.com/BCDA-APS/BITS/issues/92

@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 keywords = []
 classifiers = []
-dependencies = [ "apsbits", "hklpy2" ]
+dependencies = [ "apsbits", "hklpy2", "numpy<1.9999" ]
 
 authors = [
     { name = "Eric Codrea", email = "ecodrea@anl.gov" },

@@ -105,5 +105,5 @@ def on_startup():
 #     yield from bp.count(detectors)
 
 
-RE.md["versions"]["gi", gi.__version__]
+RE.md["versions"]["gi"] = gi.__version__
 RE(on_startup())

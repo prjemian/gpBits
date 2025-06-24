@@ -11,7 +11,7 @@ Includes:
 
 import logging
 
-import gi
+import gi  # noqa
 from apsbits.core.best_effort_init import init_bec_peaks
 from apsbits.core.catalog_init import init_catalog
 from apsbits.core.run_engine_init import init_RE
@@ -105,4 +105,5 @@ def on_startup():
 #     yield from bp.count(detectors)
 
 
+RE.md["versions"]["gi", gi.__version__]
 RE(on_startup())

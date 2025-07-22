@@ -12,6 +12,7 @@ Includes:
 import logging
 
 import gi  # noqa
+import hklpy2
 from apsbits.core.best_effort_init import init_bec_peaks
 from apsbits.core.catalog_init import init_catalog
 from apsbits.core.run_engine_init import init_RE
@@ -21,6 +22,7 @@ from apsbits.utils.config_loaders import get_config
 from apsbits.utils.controls_setup import oregistry
 from apsbits.utils.helper_functions import register_bluesky_magics
 from apsbits.utils.helper_functions import running_in_queueserver
+from hklpy2.backends.hkl_soleil import libhkl
 
 logger = logging.getLogger(__name__)
 logger.bsdev(__file__)
@@ -41,6 +43,8 @@ if iconfig.get("USE_BLUESKY_MAGICS", False):
 bec, peaks = init_bec_peaks(iconfig)
 cat = init_catalog(iconfig)
 RE, sd = init_RE(iconfig, bec_instance=bec, cat_instance=cat)
+RE.md["versions"]["hklpy2"] = hklpy2.__version__
+RE.md["versions"]["hkl_soleil"] = libhkl.VERSION
 
 # Import optional components based on configuration
 if iconfig.get("NEXUS_DATA_FILES", {}).get("ENABLE", False):
@@ -85,7 +89,7 @@ def on_startup():
     yield from make_devices(file="gp_devices.yml", clear=False)
     yield from make_devices(file="ad_devices.yml", clear=False)
     yield from setup_devices()
-    setup_baseline_stream(sd, iconfig, oregistry)
+    setup_baseline_stream(sd, oregistry)
 
 
 # TODO: https://github.com/BCDA-APS/BITS/issues/92

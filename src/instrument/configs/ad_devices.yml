@@ -15,10 +15,12 @@ apstools.devices.ad_creator:
       - pva
       - hdf1:
           class: apstools.devices.AD_EpicsFileNameHDF5Plugin
-          # TODO: check these paths
+          # /mnt/iocad -> /tmp/docker_ioc/iocad/
           read_path_template: "/mnt/iocad/tmp/"
           write_path_template: "/tmp/"
       - roi1
       - stats1
 
-apstools.synApps.TransformRecord: [{ name: ad_transform, prefix: "gp:userTran19" }]
+apstools.synApps.TransformRecord:
+  - name: ad_transform
+    prefix: "gp:userTran19"

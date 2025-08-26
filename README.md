@@ -10,6 +10,10 @@ export ENV_NAME=gpBits
 conda create -y -n "${ENV_NAME}" python=3.12 hkl
 conda activate "${ENV_NAME}"
 pip install apsbits
+# See: https://github.com/bluesky/hklpy2/issues/69
+#   which means "import gi before matplotlib"
+# This will solve the issue locally:
+conda env config vars set LD_LIBRARY_PATH="${CONDA_PREFIX}/lib"
 ```
 
 

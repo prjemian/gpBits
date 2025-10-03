@@ -12,9 +12,23 @@ Includes:
 import logging
 import warnings
 
-# import gi  # noqa # add gi version to RE.md["versions"]
-# import hklpy2
-from apsbits.core.best_effort_init import init_bec_peaks
+try:
+    import os
+    import pathlib
+
+    conda_path = pathlib.Path(os.environ['CONDA_PREFIX'])
+    os.environ["LD_LIBRARY_PATH"] = str(conda_path / "lib")
+
+    # ATM, must import gi before matplotlib
+    import gi
+    import hklpy2
+except (ImportError, ModuleNotFoundError) as exinfo:
+    import os
+
+    gi = hklpy2 = None
+    warnings.warn(f"Could not import gi and/or hklpy2: {exinfo}", stacklevel=2)
+
+from apsbits.core.best_effort_init import init_bec_peaks  # noqa: I001
 from apsbits.core.catalog_init import init_catalog
 from apsbits.core.run_engine_init import init_RE
 from apsbits.utils.aps_functions import aps_dm_setup
@@ -24,12 +38,10 @@ from apsbits.utils.controls_setup import oregistry
 from apsbits.utils.helper_functions import register_bluesky_magics
 from apsbits.utils.helper_functions import running_in_queueserver
 
-# from hklpy2.backends.hkl_soleil import libhkl
 
 logger = logging.getLogger(__name__)
 logger.bsdev(__file__)
 warnings.warn("PINNED: guarneri!=0.4.0", stacklevel=2)
-warnings.warn("gi & hklpy2 commented out until QS startup is fixed", stacklevel=2)
 
 # Do not track any ophyd objects loaded by imports above.
 oregistry.clear()
@@ -47,9 +59,6 @@ if iconfig.get("USE_BLUESKY_MAGICS", False):
 bec, peaks = init_bec_peaks(iconfig)
 cat = init_catalog(iconfig)
 RE, sd = init_RE(iconfig, bec_instance=bec, cat_instance=cat)
-# RE.md["versions"]["gi"] = gi.__version__
-# RE.md["versions"]["hklpy2"] = hklpy2.__version__
-# RE.md["versions"]["hkl_soleil"] = libhkl.VERSION
 
 # Import optional components based on configuration
 if iconfig.get("NEXUS_DATA_FILES", {}).get("ENABLE", False):
@@ -93,6 +102,14 @@ def on_startup():
     yield from make_devices(file="devices.yml", clear=False)
     yield from make_devices(file="gp_devices.yml", clear=False)
     yield from make_devices(file="ad_devices.yml", clear=False)
+    if gi is not None and hklpy2 is not None:
+        from hklpy2.backends.hkl_soleil import libhkl
+
+        RE.md["versions"]["gi"] = gi.__version__
+        RE.md["versions"]["hklpy2"] = hklpy2.__version__
+        RE.md["versions"]["hkl_soleil"] = libhkl.VERSION
+        yield from make_devices(file="diffractometers.yml", clear=False)
+
     yield from setup_devices()
     setup_baseline_stream(sd, oregistry)
 

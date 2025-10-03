@@ -17,7 +17,7 @@ try:
     import pathlib
 
     # local patch for https://github.com/bluesky/hklpy2/issues/69
-    conda_path = pathlib.Path(os.environ['CONDA_PREFIX'])
+    conda_path = pathlib.Path(os.environ["CONDA_PREFIX"])
     os.environ["LD_LIBRARY_PATH"] = str(conda_path / "lib")
 
     # ATM, must import gi before matplotlib
@@ -25,7 +25,10 @@ try:
     import hklpy2
 except (ImportError, ModuleNotFoundError) as exinfo:
     gi = hklpy2 = None
-    warnings.warn(f"Could not import gi and/or hklpy2: {exinfo}", stacklevel=2)
+    warnings.warn(
+        f"No diffractometers -- Could not import gi and/or hklpy2: {exinfo}",
+        stacklevel=2,
+    )
 
 from apsbits.core.best_effort_init import init_bec_peaks  # noqa: I001
 from apsbits.core.catalog_init import init_catalog

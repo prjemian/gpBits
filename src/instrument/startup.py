@@ -10,9 +10,10 @@ Includes:
 """
 
 import logging
+import warnings
 
-import gi  # noqa
-import hklpy2
+# import gi  # noqa # add gi version to RE.md["versions"]
+# import hklpy2
 from apsbits.core.best_effort_init import init_bec_peaks
 from apsbits.core.catalog_init import init_catalog
 from apsbits.core.run_engine_init import init_RE
@@ -22,10 +23,13 @@ from apsbits.utils.config_loaders import get_config
 from apsbits.utils.controls_setup import oregistry
 from apsbits.utils.helper_functions import register_bluesky_magics
 from apsbits.utils.helper_functions import running_in_queueserver
-from hklpy2.backends.hkl_soleil import libhkl
+
+# from hklpy2.backends.hkl_soleil import libhkl
 
 logger = logging.getLogger(__name__)
 logger.bsdev(__file__)
+warnings.warn("PINNED: guarneri!=0.4.0", stacklevel=2)
+warnings.warn("gi & hklpy2 commented out until QS startup is fixed", stacklevel=2)
 
 # Do not track any ophyd objects loaded by imports above.
 oregistry.clear()
@@ -43,8 +47,9 @@ if iconfig.get("USE_BLUESKY_MAGICS", False):
 bec, peaks = init_bec_peaks(iconfig)
 cat = init_catalog(iconfig)
 RE, sd = init_RE(iconfig, bec_instance=bec, cat_instance=cat)
-RE.md["versions"]["hklpy2"] = hklpy2.__version__
-RE.md["versions"]["hkl_soleil"] = libhkl.VERSION
+# RE.md["versions"]["gi"] = gi.__version__
+# RE.md["versions"]["hklpy2"] = hklpy2.__version__
+# RE.md["versions"]["hkl_soleil"] = libhkl.VERSION
 
 # Import optional components based on configuration
 if iconfig.get("NEXUS_DATA_FILES", {}).get("ENABLE", False):
@@ -109,5 +114,4 @@ def on_startup():
 #     yield from bp.count(detectors)
 
 
-RE.md["versions"]["gi"] = gi.__version__
 RE(on_startup())

@@ -17,44 +17,45 @@ apstools.synApps.UserCalcsDevice: [ { name: user_calcs, prefix: "gp:" } ]
 # apstools.synApps.UserStringSequenceDevice: [{ name: user_sseqs, prefix: "gp:" }]
 apstools.synApps.UserTransformsDevice: [ { name: user_transforms, prefix: "gp:" } ]
 
-# TODO: https://github.com/BCDA-APS/BITS/issues/92
-# See: https://github.com/bluesky/hklpy2/issues/69
-# which means "import gi before matplotlib"
-# This will solve it locally:
-# conda env config vars set LD_LIBRARY_PATH="${CONDA_PREFIX}/lib"
-hklpy2.creator:
-- name: fourc
-  geometry: E4CV
-  prefix: "zgp:"
-  labels: [ "diffractometer", "hklpy2" ]
-  reals:
-    # MUST provide in canonical order
-    omega: m30
-    chi: m31
-    phi: m32
-    tth: m29
-- name: psic
-  geometry: E6C
-  prefix: "zgp:"
-  labels: [ "diffractometer", "hklpy2" ]
-  reals:
-    # MUST provide in canonical order
-    # No defined motor assignments, pick different than fourc (m29-32)
-    mu: m23
-    eta: m24
-    chi: m25
-    phi: m26
-    nu: m27
-    delta: m28
-- name: sim4c
-  geometry: E4CV
-  labels: [ "diffractometer", "hklpy2" ]
-- name: sim6c
-  geometry: E6C
-  labels: [ "diffractometer", "hklpy2" ]
-- name: simk6c
-  geometry: K6C
-  labels: [ "diffractometer", "hklpy2" ]
+# Still fails at aps with QS
+# # TODO: https://github.com/BCDA-APS/BITS/issues/92
+# # See: https://github.com/bluesky/hklpy2/issues/69
+# # which means "import gi before matplotlib"
+# # This will solve it locally:
+# # conda env config vars set LD_LIBRARY_PATH="${CONDA_PREFIX}/lib"
+# hklpy2.creator:
+# - name: fourc
+#   geometry: E4CV
+#   prefix: "gp:"
+#   labels: [ "diffractometer", "hklpy2" ]
+#   reals:
+#     # MUST provide in canonical order
+#     omega: m30
+#     chi: m31
+#     phi: m32
+#     tth: m29
+# - name: psic
+#   geometry: E6C
+#   prefix: "gp:"
+#   labels: [ "diffractometer", "hklpy2" ]
+#   reals:
+#     # MUST provide in canonical order
+#     # No defined motor assignments, pick different than fourc (m29-32)
+#     mu: m23
+#     eta: m24
+#     chi: m25
+#     phi: m26
+#     nu: m27
+#     delta: m28
+# - name: sim4c
+#   geometry: E4CV
+#   labels: [ "diffractometer", "hklpy2" ]
+# - name: sim6c
+#   geometry: E6C
+#   labels: [ "diffractometer", "hklpy2" ]
+# - name: simk6c
+#   geometry: K6C
+#   labels: [ "diffractometer", "hklpy2" ]
 
 instrument.devices.factories.motors:
 # gp:m5 & gp:m6 reserved by gp:Slit1

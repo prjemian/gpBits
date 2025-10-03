@@ -16,6 +16,7 @@ try:
     import os
     import pathlib
 
+    # local patch for https://github.com/bluesky/hklpy2/issues/69
     conda_path = pathlib.Path(os.environ['CONDA_PREFIX'])
     os.environ["LD_LIBRARY_PATH"] = str(conda_path / "lib")
 
@@ -23,8 +24,6 @@ try:
     import gi
     import hklpy2
 except (ImportError, ModuleNotFoundError) as exinfo:
-    import os
-
     gi = hklpy2 = None
     warnings.warn(f"Could not import gi and/or hklpy2: {exinfo}", stacklevel=2)
 
